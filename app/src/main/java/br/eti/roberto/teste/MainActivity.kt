@@ -1,8 +1,10 @@
 package br.eti.roberto.teste
 
+import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
@@ -13,13 +15,18 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import br.eti.roberto.teste.databinding.ActivityMainBinding
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +68,27 @@ class MainActivity : AppCompatActivity() {
                     .build()
 
                 notificationManager.notify(1710, notification)
+            }
+
+            //encontrar a ultima localização conhecida
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+            }
+            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                val toast = Toast.makeText(
+                    this, "latitude:" + location.latitude.toString() +
+                            " longitude:" + location.longitude.toString(), Toast.LENGTH_LONG
+                )
+                toast.show()
             }
         }
     }
