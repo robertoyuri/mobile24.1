@@ -45,6 +45,14 @@ class SecondFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.cep.setOnClickListener{
+            val retorno: HttpService
+            retorno = HttpService("68650000")
+            val a : String
+            a = retorno.execute().get()
+            Toast.makeText(this.activity, a.toString(), Toast.LENGTH_LONG).show()
+        }
+
         binding.button.setOnClickListener{
             Toast.makeText(this.activity, "Olá Mundo", Toast.LENGTH_LONG).show()
             val intent = Intent(this.activity, SecondActivity::class.java)

@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "br.eti.roberto.teste"
-        minSdk = 27
+        minSdk = 25
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"

@@ -31,6 +31,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val retorno : HttpService
+        retorno = HttpService("68650000")
+        val a : String
+        a = retorno.execute().get()
+        Toast.makeText(this, a.toString(), Toast.LENGTH_LONG).show()
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
